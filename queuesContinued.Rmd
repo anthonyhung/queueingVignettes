@@ -1,0 +1,26 @@
+---
+title: "Modeling, Simulating, and Measuring the Performance of Queues"
+author: "Anthony Hung"
+date: "3/7/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Prerequisites
+
+This vignette continues from concepts covered in the vignette: "Introduction to Queueing Theory and Queueing Models".
+
+#
+
+#Simulating a M/M/1 queue
+
+Simulate an example of a simple M/M/1 queueing process
+
+#Introduction to performance measures for queues
+
+Perform an analysis of the simulated M/M/1 queueing process including a steady state analysis of the system (stationary distribution) and performance measures (loss probability, average waiting time, idle time).
+
+#Multiple servers: the M/M/c queue

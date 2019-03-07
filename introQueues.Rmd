@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Birth and Death Queueing Models"
+title: "Introduction to Queueing Theory and Queueing Models"
 author: "Anthony Hung"
 date: "2019-03-01"
 output: pdf_document
@@ -188,33 +188,9 @@ Q=
 \end{bmatrix}
 \]
 
-\underline{Transition probabilities}
-
-Using this transition rate matrix Q, we can calculate $P_{ij}(t)$ by deriving and solving the differential equations for $P'(t) = P(t) \cdot Q$, where $P_{ij}'(t)=\sum\limits_k P_{ik}(t)q_{kj}$.
-
-General differential equation:
-
-\[
-\begin{aligned}
-P_{ij}'(t) &= \sum\limits_k P_{ik}(t)q_{kj} \\
-&= P_{i-1,j}(t)\mu + P_{ij}(t)(-(\lambda + \mu)) + P_{i+1,j}(t)\lambda
-\end{aligned}
-\]
-
-Differential equation at the edge case of $i=0$:
-
-\[
-\begin{aligned}
-P_{0j}'(t) &= \sum\limits_k P_{0k}(t)q_{kj} \\
-&= P_{0j}(t)(-\lambda) + P_{1,j}(t)\lambda
-\end{aligned}
-\]
-
-NEED TO SOLVE THE DIFFEQs
-
 \underline{Stationary distribution}
 
-Using the transition rate matrix, we can also calculate the stationary distribution ($\pi$) of the system. *As a note,* in order to reach a steady state, $\mu > \lambda$. Otherwise, the system will never reach a steady state and customers will continually be added to the queue at a rate higher than customers are serviced ($\mu < \lambda$), or the system will be a random walk ($\mu = \lambda$). The stationary distribution describes the proportion of time that the system has n customers when the system is at a steady state.
+Using the transition rate matrix, we can calculate the stationary distribution ($\pi$) of the system. *As a note,* in order to reach a steady state, $\mu > \lambda$. Otherwise, the system will never reach a steady state and customers will continually be added to the queue at a rate higher than customers are serviced ($\mu < \lambda$), or the system will be a random walk ($\mu = \lambda$). The stationary distribution describes the proportion of time that the system has n customers when the system is at a steady state.
 
 We can use the local balance equation $\pi_i q_{ij} = \pi_j q_{ji}$ to find the stationary distribution.
 
