@@ -1,8 +1,14 @@
 ---
 title: "Modeling, Simulating, and Measuring the Performance of Queues"
 author: "Anthony Hung"
-date: "3/7/2019"
+date: "2019-03-01"
 output: pdf_document
+header-includes:
+     - \usepackage{outlines}
+     - \usepackage{enumitem}
+     - \usepackage{tikz}
+     - \usetikzlibrary{arrows}
+     - \usepackage{tabularx}
 ---
 
 ```{r setup, include=FALSE}
@@ -13,13 +19,42 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This vignette continues from concepts covered in the vignette: "Introduction to Queueing Theory and Queueing Models".
 
-#
+#Introduction
+
+In addition to simply being able to represent waiting lines mathematically, queueing theory allows for the evaluation of the behavior and performance of queues. Being able to measure the performance of queues also allows us to determine the effects of altering components of the queue on performance.
 
 #Simulating a M/M/1 queue
 
-Simulate an example of a simple M/M/1 queueing process
+In simulating a M/M/1 queue, we want to keep track of four values of the queue over time. 
 
-#Introduction to performance measures for queues
+\begin{outline}[enumerate]
+   \1 Arrival times of customers
+   \1 Departure times of customers
+   \1 The number of customers in the system at the moment of arrivals or departures
+   \1 The service time of each customer
+\end{outline}
+
+```{r simulateQueue}
+lambda <- 4
+mu <- 5
+```
+
+
+#Measuring the performance of queues
+
+There are several formal quantities used to measure the performance of a queueing system (with c servers).
+
+\begin{outline}[enumerate]
+   \1 $p_j$ := The stationary probability that there are j customers in the system
+   \1 $a$ := Offered load. The mean number of requests per service time.
+   \1 $\rho$ := Traffic intensity. Offered load per server ($a/c$).
+   \1 $a'$ := Carried load. Mean number of busy servers.
+   \1 $\rho'$ := Server occupancy. Carried load per server ($a'/c$).
+   \1 $W_s$ := Mean length of time between a customer's arrival and the customer's departure from the system.
+   \1 $W_q$ := Mean length of time between a customer's arrival and when the customer's service starts.
+   \1 $L_s$ := Mean number of customers in the system, including those in the buffer and at servers.
+   \1 $L_q$ := Mean number of customers waiting in the buffer.
+\end{outline}
 
 Perform an analysis of the simulated M/M/1 queueing process including a steady state analysis of the system (stationary distribution) and performance measures (loss probability, average waiting time, idle time).
 
