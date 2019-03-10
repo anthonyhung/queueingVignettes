@@ -102,9 +102,9 @@ There are several formal quantities used to measure the performance of a queuein
    \1 $\rho$ := Traffic intensity. Offered load per server ($a/c$).
    \1 $a'$ := Carried load. Mean number of busy servers.
    \1 $\rho'$ := Server occupancy. Carried load per server ($a'/c$).
-   \1 $W_s$ := Mean length of time between a customer's arrival and the customer's departure from the system.
+   \1 $W$ := Mean length of time between a customer's arrival and the customer's departure from the system.
    \1 $W_q$ := Mean length of time between a customer's arrival and when the customer's service starts.
-   \1 $L_s$ := Mean number of customers in the system, including those in the buffer and at servers.
+   \1 $L$ := Mean number of customers in the system, including those in the buffer and at servers.
    \1 $L_q$ := Mean number of customers waiting in the buffer.
 \end{outline}
 
@@ -123,11 +123,11 @@ The offered load of a server is given by the ratio of the arrival rate to the de
 $$a = \frac{\lambda}{\mu}$$
 $$\rho = \frac{a}{c} = \frac{\frac{\lambda}{\mu}}{1} = \frac{\lambda}{\mu}$$
 
-\underline{$a'$}
+\underline{$a'$} CHECK THIS SECTION!!
 
 The carried load can be thought of as the mean number of customers that complete service per mean service time $\frac{1}{\mu}$. Intuitively, for a queue like the M/M/1 queue with only 1 server, this will equal 1. $a'$ and $a$ are both dimensionless and expressed in "erlang" units. If the queueing system does not ever block customers (i.e. all customers that arrive to the queue will eventually be served and none are turned away due to a buffer size limits) then $a=a'$ and $\rho = \rho'$. If customers are blocked, then $a>a'$ and $\rho >\rho '$
 
-$$a' = \sum\limits^{s-1}_{j=0} jp_j + s \sum\limits^{\infty}_{j=s}p_j = 0+1 = 1$$
+$$a' = \sum\limits^{c-1}_{j=0} j\pi_j + c \sum\limits^{\infty}_{j=c}\pi_j = 0+1 = 1$$
 
 $$\rho' = \frac{a'}{c} = \frac{1}{1} = 1$$
 
@@ -135,7 +135,7 @@ $$\rho' = \frac{a'}{c} = \frac{1}{1} = 1$$
 
 Little's law states that the long-term average of the number of customers in any queue at stationarity is equal to the long-term average arrival rate λ multiplied by the average time that a customer spends in the system. Expressed algebraically using our defined variables:
 
-$$L_s = \lambda W_s$$
+$$L = \lambda W$$
 
 Little's law also holds for the number of customers waiting in the queue buffer:
 
@@ -143,7 +143,7 @@ $$L_q = \lambda W_q$$
 
 Little's Law was originally presented by John Little in 1954 without proof, but multiple proofs of the relationship have been published since (https://pubsonline.informs.org/doi/abs/10.1287/opre.20.6.1115). We can make use of the relationships stated in Little's Law in working with the last four performance measures.
 
-
+http://web.mst.edu/~gosavia/queuing_formulas.pdf
 
 In addition to knowing the equations to compute these performance metrics for the M/M/1 queue, we can also compute them for the data we simulated above.
 
