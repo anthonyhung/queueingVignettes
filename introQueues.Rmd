@@ -11,6 +11,11 @@ header-includes:
      - \usepackage{tabularx}
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(12)
+```
+
 #Prerequisites
 
 This vignette assumes a basic understanding of continuous time Markov chains, including birth/death processes.
