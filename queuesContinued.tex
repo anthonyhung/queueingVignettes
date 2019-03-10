@@ -1,0 +1,301 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Modeling, Simulating, and Measuring the Performance of Queues},
+            pdfauthor={Anthony Hung},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Modeling, Simulating, and Measuring the Performance of Queues}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Anthony Hung}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2019-03-01}
+
+\usepackage{outlines}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{tabularx}
+
+\begin{document}
+\maketitle
+
+\#Prerequisites
+
+This vignette continues from concepts covered in the vignette:
+``Introduction to Queueing Theory and Queueing Models''.
+
+\#Introduction
+
+In addition to simply being able to represent waiting lines
+mathematically, queueing theory allows for the evaluation of the
+behavior and performance of queues. Being able to measure the
+performance of queues also allows us to determine the effects of
+altering components of the queue on performance.
+
+\#Simulating a M/M/1 queue
+
+In simulating a M/M/1 queue, we want to keep track of three values of
+the queue over time.
+
+\begin{outline}[enumerate]
+   \1 Arrival times of customers
+   \1 Departure times of customers
+   \1 The number of customers in the system at every moment of arrivals or departures
+\end{outline}
+
+In simulating the queue behavior, we can take advantage of the
+superposition property of combined independent Poisson processes. Since
+arrivals and departures are indepdendent, the number of events in the
+combined process can be represented as a Poisson process with parameter
+\(\lambda_{sum} = \lambda + \mu\). The probability of an event in this
+combined process being an arrival is \(\frac{\lambda}{(\lambda+\mu)}\),
+and the probabilty of it being a departure is
+\(\frac{\mu}{(\lambda+\mu)}\).
+
+The function ``simulate\_MM1'' simulates the number of customers in a
+M/M/1 queue over time given values for lambda, mu, and \(N_0\) from
+\(T_0\) to \(T_{max}\). It also keeps track of when events (arrivals or
+departures) occur during the time periods and what type of event occurs
+at each of those moments.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lambda <-}\StringTok{ }\DecValTok{4}
+\NormalTok{mu <-}\StringTok{ }\DecValTok{5}
+
+\NormalTok{simulate_MM1 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(}\DataTypeTok{lambda=}\NormalTok{lambda, }\DataTypeTok{mu=}\NormalTok{mu, }\DataTypeTok{N0=}\DecValTok{0}\NormalTok{, }\DataTypeTok{Tmax=}\DecValTok{1000}\NormalTok{)\{}
+  \CommentTok{#Initialize vectors to store each of the values of interest throughout the simulation}
+\NormalTok{  events <-}\StringTok{ }\DecValTok{0} \CommentTok{#stores the type of event (1 for arrival, -1 for departure)}
+\NormalTok{  Times <-}\StringTok{ }\DecValTok{0} \CommentTok{#times of events}
+\NormalTok{  customers <-}\StringTok{ }\NormalTok{N0 }\CommentTok{#number of customers at each time in Times}
+  
+  \ControlFlowTok{while}\NormalTok{(}\KeywordTok{tail}\NormalTok{(Times,}\DecValTok{1}\NormalTok{) }\OperatorTok{<}\StringTok{ }\NormalTok{Tmax)\{ }\CommentTok{#keep simulating until you have an event at a time greater than Tmax}
+    
+    \ControlFlowTok{if}\NormalTok{(}\KeywordTok{tail}\NormalTok{(customers,}\DecValTok{1}\NormalTok{)}\OperatorTok{==}\DecValTok{0}\NormalTok{)\{ }\CommentTok{#separate behavior occurs if system currently has 0 customers}
+\NormalTok{      tau <-}\StringTok{ }\KeywordTok{rexp}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{rate=}\NormalTok{lambda) }\CommentTok{#interarrival intervals are exponentially distributed}
+\NormalTok{      event <-}\StringTok{ }\DecValTok{1} \CommentTok{#only an arrival can occur if thre are 0 customers}
+      
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{      tau <-}\StringTok{ }\KeywordTok{rexp}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{rate=}\NormalTok{lambda}\OperatorTok{+}\NormalTok{mu) }\CommentTok{#inter-event intervals are exponentially distributed}
+      \ControlFlowTok{if}\NormalTok{(}\KeywordTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{) }\OperatorTok{<}\StringTok{ }\NormalTok{lambda}\OperatorTok{/}\NormalTok{(lambda}\OperatorTok{+}\NormalTok{mu))\{ }\CommentTok{#if runif is less than P(event = arrival)...}
+\NormalTok{        event <-}\StringTok{ }\DecValTok{1} \CommentTok{#call the event an arrival}
+\NormalTok{      \} }\ControlFlowTok{else}\NormalTok{\{ }
+\NormalTok{        event <-}\StringTok{ }\DecValTok{-1} \CommentTok{#otherwise, call the event a departure}
+\NormalTok{      \}}
+\NormalTok{    \}}
+    
+    \CommentTok{#now that we have simulatd one event, we need to do some accounting}
+\NormalTok{    customers <-}\StringTok{ }\KeywordTok{c}\NormalTok{(customers, }\KeywordTok{tail}\NormalTok{(customers,}\DecValTok{1}\NormalTok{)}\OperatorTok{+}\NormalTok{event)}
+\NormalTok{    Times <-}\StringTok{ }\KeywordTok{c}\NormalTok{(Times, }\KeywordTok{tail}\NormalTok{(Times,}\DecValTok{1}\NormalTok{)}\OperatorTok{+}\NormalTok{tau)}
+\NormalTok{    events <-}\StringTok{ }\KeywordTok{c}\NormalTok{(events, event)}
+\NormalTok{  \}}
+  
+  \CommentTok{#we need to toss out the information from the last event (it occured after Tmax)}
+\NormalTok{  events <-}\StringTok{ }\KeywordTok{head}\NormalTok{(events, }\DecValTok{-1}\NormalTok{)}
+\NormalTok{  Times <-}\StringTok{ }\KeywordTok{head}\NormalTok{(Times, }\DecValTok{-1}\NormalTok{)}
+\NormalTok{  customers <-}\StringTok{ }\KeywordTok{head}\NormalTok{(customers, }\DecValTok{-1}\NormalTok{)}
+  
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(events,Times,customers))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+After simulating the number of customers in the queue over one run of
+the simulation, we can plot it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sim <-}\StringTok{ }\KeywordTok{simulate_MM1}\NormalTok{(}\DataTypeTok{lambda =} \DecValTok{4}\NormalTok{, }\DataTypeTok{mu=}\DecValTok{5}\NormalTok{, }\DataTypeTok{N0=}\DecValTok{0}\NormalTok{, }\DataTypeTok{Tmax=}\DecValTok{1000}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sim[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{y=}\NormalTok{sim[[}\DecValTok{3}\NormalTok{]], }\DataTypeTok{xlab=}\StringTok{"time"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Number of customers"}\NormalTok{)}\CommentTok{#number of customers vs time}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{queuesContinued_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+Notice that if \(\lambda > \mu\), the customer number explodes and will
+never reach a steady state.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sim2 <-}\StringTok{ }\KeywordTok{simulate_MM1}\NormalTok{(}\DataTypeTok{lambda =} \DecValTok{6}\NormalTok{, }\DataTypeTok{mu=}\DecValTok{5}\NormalTok{, }\DataTypeTok{N0=}\DecValTok{0}\NormalTok{, }\DataTypeTok{Tmax=}\DecValTok{1000}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sim2[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{y=}\NormalTok{sim2[[}\DecValTok{3}\NormalTok{]], }\DataTypeTok{xlab=}\StringTok{"time"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{"Number of customers"}\NormalTok{)}\CommentTok{#number of customers vs time}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{queuesContinued_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\#Measuring the performance of queues
+
+There are several formal quantities used to measure the performance of a
+queueing system (with c servers).
+
+\begin{outline}[enumerate]
+   \1 $\pi_j$ := The stationary probability that there are j customers in the system
+   \1 $a$ := Offered load. The mean number of requests per service time.
+   \1 $\rho$ := Traffic intensity. Offered load per server ($a/c$).
+   \1 $a'$ := Carried load. Mean number of busy servers.
+   \1 $\rho'$ := Server occupancy. Carried load per server ($a'/c$).
+   \1 $W_s$ := Mean length of time between a customer's arrival and the customer's departure from the system.
+   \1 $W_q$ := Mean length of time between a customer's arrival and when the customer's service starts.
+   \1 $L_s$ := Mean number of customers in the system, including those in the buffer and at servers.
+   \1 $L_q$ := Mean number of customers waiting in the buffer.
+\end{outline}
+
+We can analyze the performance of a M/M/1 queue.
+
+\underline{$\pi_j$}
+
+For the M/M/1 queue, we previously calculated the stationary
+probabilities:
+
+\[\pi_n = \frac{\lambda^n}{\mu^n}\frac{1}{1+\sum\limits_{a=1}^{\infty} \frac{\lambda ^a}{\mu ^a}}\]
+
+\underline{$a$, $\rho$}
+
+The offered load of a server is given by the ratio of the arrival rate
+to the departure rate. Traffic intensity is the offered load per server.
+
+\[a = \frac{\lambda}{\mu}\]
+\[\rho = \frac{a}{c} = \frac{\frac{\lambda}{\mu}}{1} = \frac{\lambda}{\mu}\]
+
+\underline{$a'$}
+
+\(a'\) and \(a\) are both dimensionless and expressed in ``erlang''
+units.
+
+\underline{A brief interlude: Little's Law}
+
+Little's law states that the long-term average of the number of
+customers in any queue at stationarity is equal to the long-term average
+arrival rate λ multiplied by the average time that a customer spends in
+the system. Expressed algebraically using our defined variables:
+
+\[L_s = \lambda W_s\]
+
+Little's law also holds for the number of customers waiting in the queue
+buffer:
+
+\[L_q = \lambda W_q\]
+
+Little's Law was originally presented by John Little in 1954 without
+proof, but multiple proofs of the relationship have been published since
+(\url{https://pubsonline.informs.org/doi/abs/10.1287/opre.20.6.1115}).
+
+\#Multiple servers: the M/M/c queue
+
+
+\end{document}
