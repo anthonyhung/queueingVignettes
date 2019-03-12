@@ -9,6 +9,7 @@ header-includes:
      - \usepackage{tikz}
      - \usetikzlibrary{arrows}
      - \usepackage{tabularx}
+     - \usepackage{tcolorbox}
 ---
 
 ```{r setup, include=FALSE}
@@ -82,14 +83,14 @@ After simulating the number of customers in the queue over one run of the simula
 
 ```{r}
 sim <- simulate_MM1(lambda = 4, mu=5, N0=0, Tmax=1000)
-plot(x=sim[[2]], y=sim[[3]], xlab="time", ylab="Number of customers")#number of customers vs time
+plot(x=sim[[2]], y=sim[[3]], xlab="time", ylab="Number of customers") #number of customers vs time
 ```
 
 Notice that if $\lambda > \mu$, the customer number explodes and will never reach a steady state.
 
 ```{r}
 sim2 <- simulate_MM1(lambda = 6, mu=5, N0=0, Tmax=1000)
-plot(x=sim2[[2]], y=sim2[[3]], xlab="time", ylab="Number of customers")#number of customers vs time
+plot(x=sim2[[2]], y=sim2[[3]], xlab="time", ylab="Number of customers") #number of customers vs time
 ```
 
 #Measuring the performance of queues
@@ -99,53 +100,101 @@ There are several formal quantities used to measure the performance of a queuein
 \begin{outline}[enumerate]
    \1 $\pi_j$ := The stationary probability that there are j customers in the system
    \1 $a$ := Offered load. The mean number of requests per service time.
-   \1 $\rho$ := Traffic intensity. Offered load per server ($a/c$).
-   \1 $a'$ := Carried load. Mean number of busy servers.
-   \1 $\rho'$ := Server occupancy. Carried load per server ($a'/c$).
-   \1 $W$ := Mean length of time between a customer's arrival and the customer's departure from the system.
-   \1 $W_q$ := Mean length of time between a customer's arrival and when the customer's service starts.
+   \1 $\rho$ := Server utilization or traffic intensity. Offered load per server ($a/c$).
    \1 $L$ := Mean number of customers in the system, including those in the buffer and at servers.
+   \1 $L_s$ := Mean number of customers being served.
    \1 $L_q$ := Mean number of customers waiting in the buffer.
+   \1 $W$ := Mean length of time between a customer's arrival and the customer's departure from the system.
+   \1 $W_s$ := Mean length of time a customer spends at the server.
+   \1 $W_q$ := Mean length of time between a customer's arrival and when the customer's service starts.
 \end{outline}
 
-We can analyze the performance of a M/M/1 queue.
+\vspace{5mm}
+
+\begin{center} 
+\textbf{Here are the equations for the performance metrics for a M/M/1 queue}
+\end{center}
 
 \underline{$\pi_j$}
 
 For the M/M/1 queue, we previously calculated the stationary probabilities:
 
-$$\pi_n = \frac{\lambda^n}{\mu^n}\frac{1}{1+\sum\limits_{a=1}^{\infty} \frac{\lambda ^a}{\mu ^a}}$$
+$$\pi_j = (1-\frac{\lambda}{\mu})(\frac{\lambda}{\mu})^j$$
 
 \underline{$a$, $\rho$}
 
-The offered load of a server is given by the ratio of the arrival rate to the departure rate (i.e. the mean number of arrivals that occur during the mean service time).  Traffic intensity is the offered load per server.
+The offered load of a queue is given by the ratio of the arrival rate to the departure rate (i.e. the mean number of arrivals that occur during the mean service time).  Server utilization or traffic intensity is the offered load per server. One can think about the server utilization as, on average, what proportion of the time each server in the system is occupied. For a single server queue, the offered load equals the server utilization.
 
 $$a = \frac{\lambda}{\mu}$$
 $$\rho = \frac{a}{c} = \frac{\frac{\lambda}{\mu}}{1} = \frac{\lambda}{\mu}$$
 
-\underline{$a'$} CHECK THIS SECTION!!
+With our solution for $\rho$ above, the stationary probabilities of the M/M/1 queue are commonly represented as:
 
-The carried load can be thought of as the mean number of customers that complete service per mean service time $\frac{1}{\mu}$. Intuitively, for a queue like the M/M/1 queue with only 1 server, this will equal 1. $a'$ and $a$ are both dimensionless and expressed in "erlang" units. If the queueing system does not ever block customers (i.e. all customers that arrive to the queue will eventually be served and none are turned away due to a buffer size limits) then $a=a'$ and $\rho = \rho'$. If customers are blocked, then $a>a'$ and $\rho >\rho '$
+$$\pi_j = (1-\frac{\lambda}{\mu})(\frac{\lambda}{\mu})^j = (1-\rho)\rho^j$$
 
-$$a' = \sum\limits^{c-1}_{j=0} j\pi_j + c \sum\limits^{\infty}_{j=c}\pi_j = 0+1 = 1$$
+\begin{tcolorbox}
 
-$$\rho' = \frac{a'}{c} = \frac{1}{1} = 1$$
+\begin{center} 
+\textbf{A brief interlude: Little's Law}
+\end{center}
 
-\underline{A brief interlude: Little's Law}
-
-Little's law states that the long-term average of the number of customers in any queue at stationarity is equal to the long-term average arrival rate λ multiplied by the average time that a customer spends in the system. Expressed algebraically using our defined variables:
+Little's law states that the long-term average of the number of customers in any queue at stationarity is equal to the long-term average arrival rate $\lambda$ multiplied by the average time that a customer spends in the system. Expressed algebraically using our defined variables:
 
 $$L = \lambda W$$
 
-Little's law also holds for the number of customers waiting in the queue buffer:
+Little's law also holds for the number of customers being served and for the number of customers waiting in the queue buffer:
 
+$$L_s = \lambda W_s$$
 $$L_q = \lambda W_q$$
+
 
 Little's Law was originally presented by John Little in 1954 without proof, but multiple proofs of the relationship have been published since (https://pubsonline.informs.org/doi/abs/10.1287/opre.20.6.1115). We can make use of the relationships stated in Little's Law in working with the last four performance measures.
 
-http://web.mst.edu/~gosavia/queuing_formulas.pdf
+\end{tcolorbox}
+
+\underline{$L$, $W$}
+
+The mean number of customers in the system at stationarity can be computed knowing the stationary probabilities of having j customers in the system:
+
+$$L = \sum\limits_{j=0}^\infty j\pi_j=\sum\limits_{j=0}^\infty j(1-\rho)\rho^j$$
+
+When $\rho < 1$, this expression reprsents the expectation of a geometric distribution with parameter $p=1-\rho$. Therefore,
+
+$$L = \sum\limits_{j=0}^\infty j\pi_j=\sum\limits_{j=0}^\infty j(1-\rho)\rho^j = \frac{\rho}{1-\rho}$$
+
+Using Little's Law, we can find W:
+
+$$W=\frac{L}{\lambda} = \frac{\rho}{(1-\rho)\lambda}$$
+
+\underline{$L_s$, $W_s$}
+
+The mean length of time a customer spends at the server is simply the mean service duration:
+
+$$W_s = \frac{1}{\mu}$$
+
+Using Little's Law, we can find $L_s$:
+
+$$L_s = \lambda W_s = \lambda \frac{1}{\mu} = \frac{\lambda}{\mu} = \rho$$
+
+\underline{$L_q$, $W_q$}
+
+As the number of individuals in a queue system is equal to the sum of the number of individuals in the buffer and the number of individuals currently being served:
+
+$$L_q = L-L_s = \frac{\rho}{1-\rho} - \rho = \frac{\rho-\rho(1-\rho)}{1-\rho} =\frac{\rho^2}{1-\rho}$$
+
+Using Little's Law, we can find $W_q$:
+
+$$W_q = \frac{L_q}{\lambda} =  \frac{\frac{\rho^2}{1-\rho}}{\lambda} =\frac{\rho^2}{(1-\rho)\lambda} = \frac{\rho\frac{\lambda}{\mu}}{(1-\rho)\lambda} =\frac{\rho}{(1-\rho)\mu}$$
+
+\vspace{5mm}
+
+\begin{center} 
+\textbf{Measuring performance from simulated queue data}
+\end{center}
 
 In addition to knowing the equations to compute these performance metrics for the M/M/1 queue, we can also compute them for the data we simulated above.
+
+
 
 #Multiple servers: the M/M/c queue
 
