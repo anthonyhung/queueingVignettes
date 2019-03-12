@@ -206,12 +206,12 @@ $$\pi_1 = \pi_0 \frac{\lambda}{\mu}$$
 $$\pi_2 = \pi_1 \frac{\lambda}{\mu} =  \pi_0 \frac{\lambda^2}{\mu^2}$$
 Generally,
 
-$$\pi_n = \pi_0 \frac{\lambda^n}{\mu^n}$$
+$$\pi_n = \pi_0 (\frac{\lambda}{\mu})^n$$
 
-Because $\sum\limits_{n=0}^{\infty}\pi_n = 1$, $\pi_0 = \frac{1}{1+\sum\limits_{n=1}^{\infty} \frac{\lambda ^n}{\mu ^n}}$.
+Because $\sum\limits_{n=0}^{\infty}\pi_n = 1$, $\pi_0 = \frac{1}{1+\sum\limits_{n=1}^{\infty} (\frac{\lambda}{\mu })^n}$. Because $\lambda < \mu$, the term $\sum\limits_{n=1}^{\infty} (\frac{\lambda}{\mu })^n$ is a geometric series and $\sum\limits_{n=1}^{\infty} (\frac{\lambda}{\mu })^n = \frac{\frac{\lambda}{\mu }}{1-\frac{\lambda}{\mu }}$. Substituting the term back in to the overall equation, $\pi_0 = \frac{1}{1+\frac{\frac{\lambda}{\mu }}{1-\frac{\lambda}{\mu }}}=1- \frac{\lambda}{\mu }$
 
 Therefore, the general solution is:
 
-$$\pi_n = \frac{\lambda^n}{\mu^n}\frac{1}{1+\sum\limits_{a=1}^{\infty} \frac{\lambda ^a}{\mu ^a}}$$
+$$\pi_n = \pi_0 (\frac{\lambda}{\mu})^n = (1-\frac{\lambda}{\mu})(\frac{\lambda}{\mu})^n$$$$
 
 In the next vignette, we will look at examples of simulating and measuring the performance of queues.

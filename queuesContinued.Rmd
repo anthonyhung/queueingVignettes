@@ -43,13 +43,14 @@ The function "simulate_MM1" simulates the number of customers in a M/M/1 queue o
 lambda <- 4
 mu <- 5
 
-simulate_MM1 <- function(lambda=lambda, mu=mu, N0=0, Tmax=1000){
+simulate_MM1 <- function(lambda=lambda, mu=mu, N0=0, Tmax=2000){
   #Initialize vectors to store each of the values of interest throughout the simulation
   events <- 0 #stores the type of event (1 for arrival, -1 for departure)
   Times <- 0 #times of events
   customers <- N0 #number of customers at each time in Times
   
-  while(tail(Times,1) < Tmax){ #keep simulating until you have an event at a time greater than Tmax
+  while(tail(Times,1) < Tmax){ #keep simulating until you have an event \\
+      #at a time greater than Tmax
     
     if(tail(customers,1)==0){ #separate behavior occurs if system currently has 0 customers
       tau <- rexp(1, rate=lambda) #interarrival intervals are exponentially distributed
@@ -75,22 +76,29 @@ simulate_MM1 <- function(lambda=lambda, mu=mu, N0=0, Tmax=1000){
   Times <- head(Times, -1)
   customers <- head(customers, -1)
   
+  #we will also toss out the first 100 events to allow for burn-in
+  events <- tail(events, -100)
+  Times <- tail(Times, -100)
+  customers <- tail(customers, -100)
+  
   return(list(events,Times,customers))
 }
 ```
 
 After simulating the number of customers in the queue over one run of the simulation, we can plot it.
 
-```{r}
+```{r plot simulation}
 sim <- simulate_MM1(lambda = 4, mu=5, N0=0, Tmax=1000)
-plot(x=sim[[2]], y=sim[[3]], xlab="time", ylab="Number of customers") #number of customers vs time
+plot(x=sim[[2]], y=sim[[3]], xlab="time", ylab="Number of customers") 
+#number of customers vs time
 ```
 
 Notice that if $\lambda > \mu$, the customer number explodes and will never reach a steady state.
 
-```{r}
-sim2 <- simulate_MM1(lambda = 6, mu=5, N0=0, Tmax=1000)
-plot(x=sim2[[2]], y=sim2[[3]], xlab="time", ylab="Number of customers") #number of customers vs time
+```{r explosion}
+sim2 <- simulate_MM1(lambda = 6, mu=5, N0=0, Tmax=100)
+plot(x=sim2[[2]], y=sim2[[3]], xlab="time", ylab="Number of customers") 
+#number of customers vs time
 ```
 
 #Measuring the performance of queues
@@ -192,9 +200,146 @@ $$W_q = \frac{L_q}{\lambda} =  \frac{\frac{\rho^2}{1-\rho}}{\lambda} =\frac{\rho
 \textbf{Measuring performance from simulated queue data}
 \end{center}
 
-In addition to knowing the equations to compute these performance metrics for the M/M/1 queue, we can also compute them for the data we simulated above.
+In addition to knowing the equations to compute these performance metrics for the M/M/1 queue, we can also compute them empirically for the data we simulated at the beginning of this vignette and compare them to the analytical results.
+\vspace{5mm}
+
+\underline{Stationary probabilities}
+
+```{r stationary probabilities}
+#Working with the simulation data:
+calc_stationary_prob_empirical <- function(j, data){
+  #calculate the time intervals between events in simulation data
+  intervals <- diff(data[[2]]) #diff finds the intervals between every \\
+    #two adjacent times in our simulation data
+  num_customers <- head(data[[3]], -1) #for the number of customers at the time of \\
+    #each event we toss out the last number because it does not correspond to a \\
+    #time interval above
+  stationary_prob <- sum(intervals[num_customers == j])/(max(data[[2]])-min(data[[2]]))
+  return(stationary_prob)
+}
+
+#Using analytical equations:
+mu <- 5
+lambda <- 4
+rho <- lambda/mu
+#stationary probability that j customers are in the system is given by (1-rho)*rho^j
+calc_stationary_prob_analytical <- function(j, rho_){
+  return((1-rho_)*rho_^j)
+}
+
+plot(x=lapply(seq(0,25,by=1), calc_stationary_prob_empirical, data=sim),
+     y=lapply(seq(0,25,by=1), calc_stationary_prob_analytical, rho_=rho))
+```
+\vspace{5mm}
+
+\underline{Server utilization}
+
+The server utilization is the proportion of the time the server in the system is occupied, or ($1-\pi_0$)
+
+```{r offered load and server utilization}
+#Working with the simulation data:
+1-calc_stationary_prob_empirical(j=0, data=sim)
+
+#Using analytical equations:
+#server utilization is equal to rho
+rho
+```
+\vspace{5mm}
+
+\underline{Average number of customers in the system}
+
+```{r Number of customers in the system}
+#Working with the simulation data:
+intervals <- diff(sim[[2]])
+n_customers <- head(sim[[3]], -1)
+sum(intervals*n_customers)/(max(sim[[2]])-min(sim[[2]]))
 
 
+times_of_arrivals <- sim[[2]][sim[[1]]==1]
+times_of_departures <- sim[[2]][sim[[1]]==-1]
+n_customers_at_arrivals <- sim[[3]][sim[[1]]==1]
+calc_duration_in_system <- function(time_of_arrival, n_customers_at_arrival, 
+                                    times_of_departures_){
+  subset_times_of_departures <- times_of_departures_[times_of_departures_ > time_of_arrival]
+  time_of_departure <- subset_times_of_departures[n_customers_at_arrival]
+  return(time_of_departure-time_of_arrival)
+}
+durations_in_system <- c()
+for(i in 1:length(times_of_arrivals)){
+  durations_in_system <- c(durations_in_system, 
+                           calc_duration_in_system(time_of_arrival=times_of_arrivals[i],
+                                                   n_customers_at_arrival=n_customers_at_arrivals[i], 
+                                                   times_of_departures_=times_of_departures))
+}
+mean(durations_in_system, na.rm=TRUE)
+
+#Using analytical equations:
+#L = rho/(1-rho)
+rho/(1-rho)
+#W = rho/((1-rho)*lambda)
+rho/((1-rho)*lambda)
+```
+\vspace{5mm}
+
+\underline{Average number of customers at the server}
+
+For a queue system with only one server, the number of customers being served can only be 0 or 1. Therefore, the average number of customers at the server is $1-\pi_0$.
+
+```{r Number of customers at the server}
+#Working with the simulation data:
+#average number of customers at the server is 1-pi0
+1-calc_stationary_prob_empirical(j=0, data=sim)
+#the mean length of service can be found by taking the average of the \\
+  #time intervals between departures (completion of service) in our data
+mean(diff(sim[[2]][sim[[1]] == -1]))
+
+#Using analytical equations:
+#Ls = rho
+rho
+#Ws = 1/mu
+1/mu
+```
+
+\vspace{5mm}
+
+\underline{Average number of customers in the queue buffer}
+
+For $L > 0$, $L_q = L-1$. For $L=0$, $L_q=0$.
+
+```{r Number of customers in the queue}
+#Working with the simulation data:
+intervals <- diff(sim[[2]])
+n_customers <- head(sim[[3]], -1) - 1
+n_customers <- replace(n_customers, n_customers==-1, 0)
+sum(intervals*n_customers)/(max(sim[[2]])-min(sim[[2]]))
+
+
+calc_duration_in_queue <- function(time_of_arrival, n_customers_at_arrival, 
+                                   times_of_departures_){
+  subset_times_of_departures <- times_of_departures_[times_of_departures_ > time_of_arrival]
+  time_of_departure <- subset_times_of_departures[n_customers_at_arrival -1]
+  return(time_of_departure-time_of_arrival)
+}
+
+durations_in_queue <- c()
+for(i in 1:length(times_of_arrivals)){
+  durations_in_queue <- c(durations_in_queue, 
+                          calc_duration_in_queue(time_of_arrival=times_of_arrivals[i],
+                                                 n_customers_at_arrival=n_customers_at_arrivals[i],
+                                                 times_of_departures_=times_of_departures))
+}
+mean(durations_in_queue, na.rm=TRUE)
+
+#Using analytical equations:
+#Lq = rho^2/(1-rho)
+rho^2/(1-rho)
+#Wq = rho/((1-rho)*mu)
+rho/((1-rho)*mu)
+```
 
 #Multiple servers: the M/M/c queue
 
+#References:
+
+http://courses.ieor.berkeley.edu/ieor151/lecture_notes/ieor151_lec20.pdf
+https://courses.edx.org/courses/course-v1:IMTx+CS101+3T2018/course/
