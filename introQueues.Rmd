@@ -22,7 +22,7 @@ This vignette assumes a basic understanding of continuous time Markov chains, in
 
 #Introduction
 
-Queueing theory is the study of queues, or waiting lines, which arise in any system where there are demands for a limited amount of resources. Queueing theory involves building models to characterize and evaluate the performance such systems. Examples of queues can be found in broad areas of study from biology (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3737734/), economics (https://www.jstor.org/stable/1832136?seq=1#metadata_info_tab_contents), and healthcare (https://www.sciencedirect.com/science/article/pii/S2211692314000022). By modeling these systems, one can determine adjustments to individual queue parameters that can improve the performance of the queue, which is a central goal in operations management.
+Queueing theory is the study of queues, or waiting lines, which arise in any system where there are demands for a limited amount of resources. Queueing theory involves building models to characterize and evaluate the performance such systems. Examples of queues can be found in broad areas of study from biology (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3737734/), economics (https://www.jstor.org/stable/1832136?seq=1#metadata_info_tab_contents), and healthcare (https://www.sciencedirect.com/science/article/pii/S2211692314000022). By modeling these systems, one can determine adjustments to individual queue parameters that can improve the performance of the queue, which is a central goal in operations research.
 
 #What are the components of a queueing process?
 
@@ -208,10 +208,19 @@ Generally,
 
 $$\pi_n = \pi_0 (\frac{\lambda}{\mu})^n$$
 
-Because $\sum\limits_{n=0}^{\infty}\pi_n = 1$, $\pi_0 = \frac{1}{1+\sum\limits_{n=1}^{\infty} (\frac{\lambda}{\mu })^n}$. Because $\lambda < \mu$, the term $\sum\limits_{n=1}^{\infty} (\frac{\lambda}{\mu })^n$ is a geometric series and $\sum\limits_{n=1}^{\infty} (\frac{\lambda}{\mu })^n = \frac{\frac{\lambda}{\mu }}{1-\frac{\lambda}{\mu }}$. Substituting the term back in to the overall equation, $\pi_0 = \frac{1}{1+\frac{\frac{\lambda}{\mu }}{1-\frac{\lambda}{\mu }}}=1- \frac{\lambda}{\mu }$
+Because $\sum\limits_{n=0}^{\infty}\pi_n = 1$, $\pi_0 = \frac{1}{1+\sum\limits_{n=1}^{\infty} (\frac{\lambda}{\mu })^n}$. Because $\lambda < \mu$, the term $\sum\limits_{n=1}^{\infty} (\frac{\lambda}{\mu })^n$ is a geometric series and $\sum\limits_{n=1}^{\infty} (\frac{\lambda}{\mu })^n = \frac{\frac{\lambda}{\mu }}{1-\frac{\lambda}{\mu }}$. Substituting the term back in to the overall equation for $\pi_0$, $\pi_0 = \frac{1}{1+\frac{\frac{\lambda}{\mu }}{1-\frac{\lambda}{\mu }}}=1- \frac{\lambda}{\mu }$
 
 Therefore, the general solution is:
 
-$$\pi_n = \pi_0 (\frac{\lambda}{\mu})^n = (1-\frac{\lambda}{\mu})(\frac{\lambda}{\mu})^n$$$$
+$$\pi_n = \pi_0 (\frac{\lambda}{\mu})^n = (1-\frac{\lambda}{\mu})(\frac{\lambda}{\mu})^n$$
+
+#Summary
+1. Queues can be found throughout natural and man-made environments.
+2. The behavior of certain queues can be modeled as continuous time Markov chains.
 
 In the next vignette, we will look at examples of simulating and measuring the performance of queues.
+
+#References
+Cooper, Robert B. (1981). *Introduction to Queueing Theory* New York, NY: North Holland.
+http://www.mathcs.emory.edu/~cheung/Courses/558/Syllabus/00/queueing/queueing.html
+http://courses.ieor.berkeley.edu/ieor151/lecture_notes/ieor151_lec20.pdf
