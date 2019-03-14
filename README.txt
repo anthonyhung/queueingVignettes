@@ -1,0 +1,1 @@
+Repository containing vignettes introducing queueing theory and modeling, simulating, and evaluating the performance of queues.

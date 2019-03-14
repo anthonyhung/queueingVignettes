@@ -89,7 +89,7 @@ After simulating the number of customers in the queue over one run of the simula
 
 ```{r plot simulation}
 sim <- simulate_MM1(lambda = 4, mu=5, N0=0, Tmax=10000)
-plot(x=sim[[2]], y=sim[[3]], xlim=c(950,1000), ylim=c(0,20),
+plot(x=sim[[2]], y=sim[[3]], xlim=c(950,1000), ylim=c(0,15),
      pch = 20, xlab="time", ylab="Number of customers") 
 #number of customers vs time
 ```
@@ -144,7 +144,7 @@ $$\pi_j = (1-\frac{\lambda}{\mu})(\frac{\lambda}{\mu})^j = (1-\rho)\rho^j$$
 \begin{tcolorbox}
 
 \begin{center} 
-\textbf{A brief interlude: Little's Law}
+\Large{\textbf{A brief interlude: Little's Law}}
 \end{center}
 
 Little's law states that the long-term average of the number of customers in any queue at stationarity is equal to the long-term average arrival rate $\lambda$ multiplied by the average time that a customer spends in the system. Expressed algebraically using our defined variables:
@@ -239,7 +239,7 @@ analytical_stationary_probabilities <- lapply(seq(0,20,by=1),
 analytical_stationary_probabilities <- unlist(analytical_stationary_probabilities, use.names=F)
 
 #plotting the values for the stationary probabilities from the empirical vs analytical \\
-  #methods for values of j from 0 to 25, we can see that they agree very well
+  #methods for values of j from 0 to 20, we can see that they agree very well
 plot(x=empirical_stationary_probabilities,
      y=analytical_stationary_probabilities)
 abline(a=0, b=1, col="red")
@@ -413,5 +413,7 @@ The M/M/c queue has Poisson arrivals and $c$ independent identical servers, each
 
 #References:
 Cooper, Robert B. (1981). *Introduction to Queueing Theory* New York, NY: North Holland.
+
 https://www.edx.org/course/queuing-theory-from-markov-chains-to-multi-server-systems-0
-Ross, Sheldon M. (2014). *Introduction to Probability
+
+Ross, Sheldon M. (2014). *Introduction to Probability Models*

@@ -22,7 +22,7 @@ This vignette assumes a basic understanding of continuous time Markov chains, in
 
 #Introduction
 
-Queueing theory is the study of queues, or waiting lines, which arise in any system where there are demands for a limited amount of resources. Queueing theory involves building models to characterize and evaluate the performance such systems. Examples of queues can be found in broad areas of study from biology (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3737734/), economics (https://www.jstor.org/stable/1832136?seq=1#metadata_info_tab_contents), and healthcare (https://www.sciencedirect.com/science/article/pii/S2211692314000022). By modeling these systems, one can determine adjustments to individual queue parameters that can improve the performance of the queue, which is a central goal in operations research.
+Queueing theory is the study of queues, or waiting lines, which arise in any system where there are demands for a limited amount of resources. Queueing theory involves building models to characterize and evaluate the performance of such systems. Examples of queues can be found in broad areas of study from biology (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3737734/), economics (https://www.jstor.org/stable/1832136?seq=1#metadata_info_tab_contents), and healthcare (https://www.sciencedirect.com/science/article/pii/S2211692314000022). By modeling these systems, one can determine adjustments to individual queue parameters that can improve the performance of the queue, which is a central goal in operations research.
 
 #What are the components of a queueing process?
 
@@ -66,15 +66,12 @@ A single queue node can be graphically depicted as such:
 \begin{figure}[!h]
 \centering
 \begin{tikzpicture}[>=latex]
-% the rectangle with vertical rules
 \draw (0,0) -- ++(2cm,0) -- ++(0,-1.5cm) -- ++(-2cm,0);
 \foreach \i in {1,...,4}
   \draw (2cm-\i*10pt,0) -- +(0,-1.5cm);
 
-% the circle
 \draw (2.75,-0.75cm) circle [radius=0.75cm];
 
-% the arrows and labels
 \draw[->] (3.5,-0.75) -- +(20pt,0);
 \draw[<-] (0,-0.75) -- +(-20pt,0) node[left] {$\lambda$};
 \node at (2.75,-0.75cm) {$\mu$};
@@ -84,7 +81,7 @@ A single queue node can be graphically depicted as such:
 \end{tikzpicture}
 \end{figure}
 
-In this queue, $\lambda$ describes the arrival process and $\mu$ describes the service duration. There is a buffer size of 5, meaning at most 6 customers can be in the system before the next customer is blocked from entereing the queue. 
+In this queue, $\lambda$ describes the arrival process and $\mu$ describes the service duration. There is a buffer size of 5, meaning at most 6 customers can be in the system before the next customer is blocked from entering the queue. 
 
 #Kendall's notation for representing queues
 
